@@ -9,8 +9,15 @@ createInertiaApp({
     return pages[`./Pages/${name}.vue`]
   },
   setup({ el, App, props, plugin }) {
+    let app_project = createApp({ render: () => h(app, props) });
     createApp({ render: () => h(App, props) })
       .use(plugin)
+      .mount(el)
+
+      const app = createApp({ render: () => h(App, props) })
+      .component('inertia-link', Link) 
+      .use(plugin)
+      .mixin({ methods: { route } })
       .mount(el)
   },
 })

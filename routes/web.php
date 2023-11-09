@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\GiftController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +18,8 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('Home');
 });
+
+Route::resource('gifts', GiftController::class)
+    ->names([
+        'index' => 'gifts'
+    ]);

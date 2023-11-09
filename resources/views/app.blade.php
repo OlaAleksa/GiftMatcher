@@ -6,6 +6,7 @@
     @inertiaHead
   </head>
   <body>
+    @routes
     @inertia
   </body>
 </html>
