@@ -15,6 +15,8 @@ use App\Http\Controllers\GiftController;
 |
 */
 
+Auth::routes(['register' => false]);
+
 Route::get('/', function () {
     return Inertia::render('Home');
 });
@@ -22,4 +24,4 @@ Route::get('/', function () {
 Route::resource('gifts', GiftController::class)
     ->names([
         'index' => 'gifts'
-    ]);
+]);

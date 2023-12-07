@@ -1,7 +1,13 @@
 import './bootstrap';
+import '../css/app.scss'
 
 import { createApp, h } from 'vue'
-import { createInertiaApp } from '@inertiajs/vue3'
+import { createInertiaApp, Link } from '@inertiajs/vue3';
+import { VueReCaptcha, useReCaptcha } from 'vue-recaptcha-v3';
+import Toaster from "@meforma/vue-toaster";
+
+
+import ComponentsUI from "@/Components/UI";
 
 createInertiaApp({
   resolve: name => {
@@ -9,14 +15,18 @@ createInertiaApp({
     return pages[`./Pages/${name}.vue`]
   },
   setup({ el, App, props, plugin }) {
+    // If you want to use UI components in entire project, you should add this component in file @/Components/UI/index.js
     let app_project = createApp({ render: () => h(app, props) });
-    createApp({ render: () => h(App, props) })
-      .use(plugin)
-      .mount(el)
+    ComponentsUI.forEach(component => {
+        app_project.component(component.name, component)
+    });
 
-      const app = createApp({ render: () => h(App, props) })
+    const captcheKey = props.initialPage.props.recaptcha_site_key;
+    const app = createApp({ render: () => h(App, props) })
       .component('inertia-link', Link) 
       .use(plugin)
+      .use(VueReCaptcha, { siteKey: captcheKey } )
+      .use(Toaster)
       .mixin({ methods: { route } })
       .mount(el)
   },

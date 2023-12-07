@@ -1,3 +1,3 @@
 <template>
-    Index
+    Index 
 </template>
