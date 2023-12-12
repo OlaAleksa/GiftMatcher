@@ -2,19 +2,20 @@
 
 namespace App\Models;
 
-use App\Models\Category;
+use App\Models\Gift;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Gift extends Model
+class Category extends Model
 {
     protected $guarded = [
         'id',
     ];
 
-    public function category()
+    public function gifts()
     {
-        return $this->belongsTo(Category::class);
+        return $this->hasMany(Gift::class);
     }
 }
+

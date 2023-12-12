@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\GiftController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,7 @@ Route::resource('gifts', GiftController::class)
     ->names([
         'index' => 'gifts'
 ]);
+
+Route::get('categories/create', [CategoryController::class, 'create'])->name('categories.create');
+
+Route::post('categories/store', [CategoryController::class, 'store'])->name('categories.store');

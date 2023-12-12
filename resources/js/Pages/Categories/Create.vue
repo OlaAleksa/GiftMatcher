@@ -3,9 +3,6 @@
     <ValidationErrors/>
     {{ $page.props.flash.message || ''}} 
       <form @submit.prevent="submitForm" class="flex flex-col gap-6">
-
-  {{ props.categories }}
-
         <div class="flex flex-col">
           <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
           <input v-model="formData.title" type="text" id="title" name="title" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:border-blue-500" />
@@ -17,8 +14,8 @@
         </div>
   
         <div class="flex flex-col">
-          <label for="picture" class="block text-sm font-medium text-gray-700">Picture</label>
-          <input type="file" @change="handleFileChange" id="picture" name="picture" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:border-blue-500" />
+          <label for="symbol" class="block text-sm font-medium text-gray-700">Symbol</label>
+          <textarea v-model="promotionSymbol" id="symbol" name="symbol" rows="4" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:border-blue-500"></textarea>
         </div>
   
         <button type="submit" class="px-4 py-2 bg-blue-500 w-[150px] self-end text-white rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue">Submit</button>
@@ -27,27 +24,19 @@
   </template>
   
   <script setup>
-  import { ref, defineProps } from 'vue';
+  import { ref, computed } from 'vue';
   import { useForm } from '@inertiajs/vue3'
   import ValidationErrors from '@/Components/ValidationErrors.vue'
-
-
-  const props = defineProps({
-    categories: {
-      required: true,
-      type: Object,
-    }
-  })
+  
   
   const formData = useForm({
     title: '',
     description: '',
-    picture: null,
-    category_id: 3,
+    symbol: '',
   });
   
   const submitForm = () => {
-    formData.post(route('gifts.store'), {
+    formData.post(route('categories.store'), {
         preserveScroll: true,
         onSuccess: () => {
                 formData.reset();
@@ -60,10 +49,21 @@
 
     )
   };
+
+  const promotionSymbol = computed({
+    get() {
+        if (formData.title !== null) {
+                    let newline = formData.title.replace(/\s+/g, '-').toLowerCase();
+                    formData.symbol = newline;
+                    return newline;
+                }
+    },    set(newValue) {
+        var symbols = newValue.split(' ')
+                formData.symbol = symbols[0]
+    }
+  });
   
-  const handleFileChange = (event) => {
-    formData.picture = event.target.files[0];
-  };
+ 
   </script>
   
 
